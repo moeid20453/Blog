@@ -1,12 +1,17 @@
 let mongoose = require("mongoose");
 
 let blogSchema = mongoose.Schema({
-    title: String,
-    content: String,
-    catigory: String
-})
+  userid: String,
+  title: String,
+  content: String,
+  cat: String,
+  date: String,
+  img: {
+    data: Buffer,
+    contentType: String,
+  },
+});
 
-
-let blogModel = mongoose.model("userblogs", blogSchema)
+let blogModel = mongoose.model("userblogs", blogSchema);
 
 module.exports = blogModel;
