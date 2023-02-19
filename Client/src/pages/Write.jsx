@@ -1,12 +1,14 @@
 import React from "react";
-import { useState } from "react";
+import { useState , useContext} from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import ReactQuill from "react-quill";
 import axios from "axios";
 import moment from "moment";
 import "react-quill/dist/quill.snow.css";
+import { AuthContext } from "../context/authContext";
 
 const Write = () => {
+  const { currentUser } = useContext(AuthContext);
   const state = useLocation().state;
   const [content, setContent] = useState(state?.title || "");
   const [title, setTitle] = useState(state?.desc || "");
@@ -15,47 +17,30 @@ const Write = () => {
 
   const navigate = useNavigate();
 
-  const upload = async () => {
-    try {
-      const formData = new FormData();
-      formData.append("file", file);
-      const res = await axios.post(
-        `/addNewBlog/:userId${localStorage.id}`,
-        formData
-      );
-      return res.data;
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  
   const handleClick = async (e) => {
     e.preventDefault();
-    const imgUrl = await upload();
-    try {
-      state
-        ? await axios.put(`/addNewBlog/:userId${localStorage.id}`, {
-            title,
-            content,
-            cat,
-            img: file ? imgUrl : "",
-          })
-        : await axios.post("/posts/"),
-        {
-          title,
-          content,
-          cat,
-          img: file ? imgUrl : "",
-          date: moment(Date.now()).format("YYYY-MM-DD HH:mm:ss"),
-        };
+    let post = { userid:currentUser.data.user._id ,
+      title: title,
+      content: content,
+       cat: cat,
+      date:moment(Date.now()).format("YYYY-MM-DD HH:mm:ss"),
+      img : file
+    }
+    try{
+    const res = await axios.post(`/addNewBlog/${currentUser.data.user._id}`, post);
+      console.log(res);
       navigate("/");
-    } catch (err) {
+    }catch (err) {
       console.log(err);
     }
   };
 
   return (
     <div className="add">
+      <form action="/" method="POST" enctype="multipart/form-data">
       <div className="content">
+        
         <input
           type="text"
           placeholder="Title"
@@ -93,7 +78,7 @@ const Write = () => {
           </label>
           <div className="buttons">
             <button>Save as draft</button>
-            <button>Update</button>
+            <button onClick={handleClick}>Update</button>
           </div>
         </div>
         <div className="item">
@@ -166,6 +151,7 @@ const Write = () => {
           </div>
         </div>
       </div>
+      </form>
     </div>
   );
 };

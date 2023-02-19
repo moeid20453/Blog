@@ -12,9 +12,9 @@ export const AuthContexProvider = ({ children }) => {
 
   const login = async (inputs) => {
     console.log(inputs);
-    const res = await axios.post("/api/login", inputs);
+    const res = await axios.post("/api/Login", inputs);
     console.log(res);
-    setCurrentUser(res);
+     setCurrentUser(res);
   };
 
    const logout = async (inputs) => {

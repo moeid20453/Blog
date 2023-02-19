@@ -26,8 +26,10 @@ let Register = async (req, res) => {
 }
 
 let Login = async (req, res) =>{
+  console.log(req.body);
   const {userName , password} = req.body;
   let user = await User.findOne({userName});
+  console.log(user);
   if (user){
     var match = await bcrypt.compare(password, user.password)
  
@@ -41,7 +43,7 @@ let Login = async (req, res) =>{
     res.status(200).json({user: user})
   } 
   }else{
-      res.status(400).json({message: "Incorrect password Or user doesn't exist"})
+      res.status(400).json("Incorrect password Or user doesn't exist")
   }
 }
 let activateUser = async (req,res) =>{

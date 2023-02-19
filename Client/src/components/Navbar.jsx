@@ -22,7 +22,7 @@ const Navbar = () => {
                     <Link className='link' to = "/?cat=cinema"><h6>CINEMA</h6></Link>
                     <Link className='link' to = "/?cat=design"><h6>DESIGN</h6></Link>
                     <Link className='link' to = "/?cat=food"><h6>FOOD</h6></Link>
-                <span>{currentUser?.user.userName}</span>
+                <span>{currentUser.data.user.userName }</span>
                 {currentUser?(
                 <span onClick={logout}>Logout</span>
                 ):(

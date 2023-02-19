@@ -34,7 +34,7 @@ const Login = () => {
                 <input type="text" placeholder='Username' name='userName'onChange={handleChange}/>
                 <input type="password" placeholder='Password'name='password'onChange={handleChange}/>
                 <button  onClick={handleSubmit}>Login</button>
-                {err && <p>{err}</p>}
+                 
                 <span>If you have an account <Link to="/register">Rigester </Link>
                 </span>
             </form>
