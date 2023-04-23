@@ -40,10 +40,10 @@ let Login = async (req, res) =>{
     req.session.cookie.maxAge = day
     req.session.user = user;
     await req.session.save()
-    res.status(200).json({user: user})
+    res.status(200).json({user})
   } 
   }else{
-      res.status(400).json("Incorrect password Or user doesn't exist")
+      res.status(400).json({error: "Incorrect password Or user doesn't exist"})
   }
 }
 let activateUser = async (req,res) =>{
@@ -64,7 +64,7 @@ let Logout = async (req,res) =>{
   res.clearCookie("connect.sid",{
     sameSite:"none",
     secure:true
-  }).status(200).json("User has been logged out.")
+  }).status(200).json("")
 }
 
 

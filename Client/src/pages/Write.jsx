@@ -12,7 +12,7 @@ const Write = () => {
   const state = useLocation().state;
   const [content, setContent] = useState(state?.title || "");
   const [title, setTitle] = useState(state?.desc || "");
-  const [file, setFile] = useState(null);
+  const [file, setFile] = useState();
   const [cat, setCat] = useState(state?.cat || "");
 
   const navigate = useNavigate();
@@ -20,15 +20,15 @@ const Write = () => {
   
   const handleClick = async (e) => {
     e.preventDefault();
-    let post = { userid:currentUser.data.user._id ,
+    let post = { userid:currentUser.data._id ,
       title: title,
       content: content,
-       cat: cat,
+      cat: cat,
       date:moment(Date.now()).format("YYYY-MM-DD HH:mm:ss"),
       img : file
     }
     try{
-    const res = await axios.post(`/addNewBlog/${currentUser.data.user._id}`, post);
+    const res = await axios.post(`/addNewBlog`, post);
       console.log(res);
       navigate("/");
     }catch (err) {
@@ -38,7 +38,7 @@ const Write = () => {
 
   return (
     <div className="add">
-      <form action="/" method="POST" enctype="multipart/form-data">
+      
       <div className="content">
         
         <input
@@ -70,7 +70,6 @@ const Write = () => {
             style={{ display: "none" }}
             type="file"
             id="file"
-            name=""
             onChange={(e) => setFile(e.target.files[0])}
           />
           <label className="file" htmlFor="file">
@@ -151,7 +150,7 @@ const Write = () => {
           </div>
         </div>
       </div>
-      </form>
+      
     </div>
   );
 };

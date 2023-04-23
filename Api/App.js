@@ -1,6 +1,8 @@
 let express = require('express');
 const app = express();
 let bodyParser = require("body-parser");
+let path = require("path");
+let staticFiles = path.join(__dirname, "public");
 require("dotenv").config();
 const sessionAuth = require('./helpers/sessoin.auth');
 const cors = require("cors");
@@ -12,7 +14,7 @@ connection();
 let userRoutes = require("./routes/users");
 let blogRoutes = require("./routes/blogs")
 
-
+app.use(express.static(staticFiles));
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.json())
 

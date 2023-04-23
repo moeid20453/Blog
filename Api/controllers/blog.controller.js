@@ -23,10 +23,13 @@ let getBlogsByCategory = async (req, res) => {
 };
 
 let addNewBlog = async (req, res) => {
-  const blog = await new Blog(req.body);
+  let image = req.files;
+  console.log({image: image});
+  const blog = await new Blog({title:req.body.title,content:req.body.content, cat: req.body.cat, date:req.body.date, img: image});
   await blog.save();
+  // await Blog.findByIdAndUpdate(blog._id,{image: image[0]})
   await User.findByIdAndUpdate(
-    { _id: req.params.userId },
+    { _id: req.body.userid },
     { $push: { userBlogs: blog._id } }
   );
   res.status(200).json({ message: "success", blog });

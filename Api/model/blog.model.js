@@ -6,10 +6,7 @@ let blogSchema = mongoose.Schema({
   content: String,
   cat: String,
   date: String,
-  img: {
-    data: Buffer,
-    contentType: String,
-  },
+  img: Object,
 });
 
 let blogModel = mongoose.model("userblogs", blogSchema);
